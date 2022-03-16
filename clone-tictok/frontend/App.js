@@ -1,17 +1,23 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { initializeApp } from "firebase/app";
 import Constants from "expo-constants";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux-thunk";
+import thunk from "redux-thunk";
+import rootReducer from "./src/redux/reducers";
+import AuthScreen from "./src/screens/auth";
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 // Initialize Firebase
 initializeApp(Constants.manifest.web.config.firebase);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Subscribe to simcoder!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <AuthScreen />
+      <Text>hello</Text>
+    </Provider>
   );
 }
 
