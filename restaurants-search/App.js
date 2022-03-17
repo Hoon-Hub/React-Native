@@ -1,9 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Header from "./src/components/Header";
 import Search from "./src/components/Search";
-import CategoryItem from "./src/components/CategoryItem";
+import Categories from "./src/components/Categories";
 
 export default function App() {
   const [term, setTerm] = useState("Burger");
@@ -39,35 +39,16 @@ export default function App() {
     <View style={styles.container}>
       <Header />
       <Search setTerm={setTerm} />
-
-      <FlatList
-        data={commonCategories}
-        renderItem={({ item, index }) => {
-          return (
-            <CategoryItem
-              name={item.name}
-              imageUrl={item.imageUrl}
-              index={index}
-              active={item.name === term}
-              onPress={handlePress}
-            />
-          );
-        }}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(category) => category.name}
-      />
-
+      <Categories
+        categories={commonCategories}
+        setTerm={setTerm}
+        term={term}
+      ></Categories>
       <StatusBar />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   backgroundColor: "#fff",
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  // },
+  container: {},
 });
