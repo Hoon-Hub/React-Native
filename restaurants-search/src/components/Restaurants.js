@@ -1,13 +1,41 @@
-import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  FlatList,
+} from "react-native";
+import React, { useEffect } from "react";
 import useRestaurants from "../hooks/useRestaurants";
+import RestaurantItem from "./RestaurantItem";
 
-export default function Restaurants() {
+export default function Restaurants({ term }) {
   const [{ data, loading, error }, searhAPI] = useRestaurants();
+  useEffect(() => {
+    searhAPI(term);
+  }, [term]);
+  console.log({ data: data, loading, error });
+
+  if (loading)
+    return (
+      <ActivityIndicator size="large" marginVertical="30"></ActivityIndicator>
+    );
+
+  if (error)
+    return (
+      <View style={styles.container}>
+        <Text style={styles.header}>Error</Text>
+      </View>
+    );
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Restaurants</Text>
+      <FlatList
+        data={data}
+        keyExtractor={(restaurant) => restaurant.id}
+        renderItem={({ item }) => <RestaurantItem item={item}></RestaurantItem>}
+      ></FlatList>
     </View>
   );
 }

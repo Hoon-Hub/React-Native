@@ -32,5 +32,5 @@ export default () => {
       });
     }
   };
-  return [results, setResults];
+  return [results, searhAPI];
 };
