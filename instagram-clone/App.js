@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import Ionic from "react-native-vector-icons/Ionicons";
-import { useFonts } from "@expo-google-fonts/inter";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -10,15 +9,9 @@ import Search from "./src/screens/Search";
 import Reels from "./src/screens/Reels";
 import Activity from "./src/screens/Activity";
 import Profile from "./src/screens/Profile";
+import Status from "./src/components/screenComponents/Status";
 
 export default function App() {
-  let [loaded] = useFonts({
-    "Lobster-Regular": require("./assets/fonts/Lobster-Regular.ttf"),
-  });
-  if (!loaded) {
-    return null;
-  }
-
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
 
@@ -26,6 +19,7 @@ export default function App() {
     return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
+          initialRouteName: "Home",
           tabBarShowLabel: false,
           headerShown: false,
           tabBarStyle: {
@@ -64,7 +58,16 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="bottom" component={BottomTabScreen} />
+        <Stack.Screen
+          name="Bottom"
+          component={BottomTabScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Status"
+          component={Status}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
