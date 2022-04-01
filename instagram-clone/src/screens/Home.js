@@ -4,7 +4,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useFonts } from "@expo-google-fonts/inter";
 import Feather from "react-native-vector-icons/Feather";
 import Stories from "../components/screenComponents/Stories";
-
+import Post from "../components/screenComponents/Post";
 const Home = () => {
   let [loaded] = useFonts({
     "Lobster-Regular": require("../../assets/fonts/Lobster-Regular.ttf"),
@@ -42,6 +42,7 @@ const Home = () => {
 
       <ScrollView>
         <Stories />
+        <Post />
       </ScrollView>
     </View>
   );
