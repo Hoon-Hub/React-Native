@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+} from "react-native";
 import React from "react";
 import Entypo from "react-native-vector-icons/Entypo";
 import { useNavigation } from "@react-navigation/native";
@@ -56,13 +63,7 @@ const Stories = () => {
               })
             }
           >
-            <View
-              style={{
-                flexDirection: "column",
-                paddingHorizontal: 8,
-                position: "relative",
-              }}
-            >
+            <View style={styles.container}>
               {data.id == 1 ? (
                 <View
                   style={{
@@ -122,5 +123,13 @@ const Stories = () => {
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "column",
+    paddingHorizontal: 8,
+    position: "relative",
+  },
+});
 
 export default Stories;
