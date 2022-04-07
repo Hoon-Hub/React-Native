@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  Platform,
 } from "react-native";
 import { theme } from "./colors";
 import { useState, useEffect } from "react";
@@ -22,17 +23,12 @@ export default function App() {
   const [working, setWorking] = useState(true);
   const [text, setText] = useState("");
   const [todos, setTodos] = useState({});
-  const [nowPosition, setPosition] = useState(true);
 
   const travel = async () => {
     setWorking(false);
-    setPosition(false);
-    await AsyncStorage.setItem("tabs", nowPosition);
   };
   const work = async () => {
     setWorking(true);
-    setPosition(true);
-    await AsyncStorage.setItem("tabs", nowPosition);
   };
 
   const saveTodos = async (toSave) => {
@@ -61,30 +57,43 @@ export default function App() {
     if (text === "") return;
     // save todo
     const newTodos = { ...todos, [Date.now()]: { text, working } };
+    setText("");
 
     setTodos(newTodos);
     await saveTodos(newTodos);
-    setText("");
   };
 
   const deleteTodo = async (key) => {
-    Alert.alert("Delete todo?", "Are you sure?", [
-      { text: "Cancel" },
-      {
-        text: "I'm sure",
-        onPress: () => {
-          try {
-            const newTodos = { ...todos };
-            delete newTodos[key];
-            setTodos(newTodos);
-            saveTodos(newTodos);
-            // await AsyncStorage.removeItem(key);
-          } catch (error) {
-            console.log(error);
-          }
+    // Platform check
+    if (Platform.OS === "web") {
+      // web
+      const ok = confirm("Do you want to delete this todo?");
+      if (ok) {
+        const newTodos = { ...todos };
+        delete newTodos[key];
+        setTodos(newTodos);
+        saveTodos(newTodos);
+      }
+    } else {
+      // mobile
+      Alert.alert("Delete todo?", "Are you sure?", [
+        { text: "Cancel" },
+        {
+          text: "I'm sure",
+          onPress: () => {
+            try {
+              const newTodos = { ...todos };
+              delete newTodos[key];
+              setTodos(newTodos);
+              saveTodos(newTodos);
+              // await AsyncStorage.removeItem(key);
+            } catch (error) {
+              console.log(error);
+            }
+          },
         },
-      },
-    ]);
+      ]);
+    }
   };
 
   return (
@@ -114,6 +123,7 @@ export default function App() {
       </View>
       <View>
         <TextInput
+          value={text}
           returnKeyType="done"
           onSubmitEditing={addTodo}
           onChangeText={onChangeText}
