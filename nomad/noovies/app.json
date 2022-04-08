@@ -3,9 +3,10 @@
     "name": "noovies",
     "slug": "noovies",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "userInterfaceStyle": "dark"
+    }
   },
   "name": "noovies"
 }
